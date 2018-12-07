@@ -31,6 +31,5 @@ struElement* create(int amount) {
 
 void main() {
 	struElement* pStart = create(5);
-
 	system("pause");
 }
