@@ -56,6 +56,13 @@ void printList(struPerson* pStart) {
 	}
 }
 
+//cont char* ist als Parameter wie ein String
+void deletePerson(struPerson* pStart, const char* firstname, const char* lastname) {
+	for (struPerson* pCurrentPerson = pStart; pCurrentPerson != NULL; pCurrentPerson = pCurrentPerson->pNext) {
+		
+	}
+}
+
 void main() {
 	srand((unsigned)time(NULL));
 	// Liste erstellen
