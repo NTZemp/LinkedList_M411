@@ -56,10 +56,30 @@ void printList(struPerson* pStart) {
 	}
 }
 
-//cont char* ist als Parameter wie ein String
-void deletePerson(struPerson* pStart, const char* firstname, const char* lastname) {
-	for (struPerson* pCurrentPerson = pStart; pCurrentPerson != NULL; pCurrentPerson = pCurrentPerson->pNext) {
-		
+void deletePerson(struPerson* pStart, char firstname, char lastname) {
+	struPerson* pPreviousPerson = pStart;
+	// Um sicherzustellen das die erste Person keine ist, die gelöscht werden soll
+	// FUNKTIONIERT IRGENDWIE NICHT!!!
+	//if (pPreviousPerson->firstname[0] == firstname && pPreviousPerson->lastname[0])
+	//{
+	//	struPerson* pNext = pPreviousPerson->pNext;
+	//	free(pPreviousPerson);
+	//	pPreviousPerson = pNext;
+	//}
+
+	struPerson* pCurrentPerson = pPreviousPerson->pNext;
+	while (pCurrentPerson != NULL)
+	{
+		struPerson* pNext = pCurrentPerson->pNext;
+		if (pCurrentPerson->firstname[0] == firstname && pCurrentPerson->lastname[0]) {
+			free(pCurrentPerson);
+			pPreviousPerson->pNext = pNext;
+		}
+		else
+		{
+			pPreviousPerson = pCurrentPerson;
+		}
+		pCurrentPerson = pNext;
 	}
 }
 
@@ -67,19 +87,35 @@ void main() {
 	srand((unsigned)time(NULL));
 	// Liste erstellen
 	printf("Geben Sie die Anzahl Elemente die Sie erstellen moechten ein: ");
-	int createElements;
-	scanf_s("%d", &createElements);
-	struPerson* pStart = create(createElements);
+	int numberOfElements;
+	scanf_s("%d", &numberOfElements);
+	struPerson* pStart = create(numberOfElements);
+	printList(pStart);
+	char yesOrNo;
+	printf("\n\nMoechten Sie einige Elemente loeschen? [j/n]: ");
+	scanf_s(" %c", &yesOrNo);
+
+	char firstname;
+	char lastname;
+	if (yesOrNo == 'j')
+	{
+		printf("Geben Sie den Vornamen ein: ");
+		scanf_s(" %c", &firstname);
+		printf("Geben Sie den Nachnamen ein: ");
+		scanf_s(" %c", &lastname);
+	}
+	deletePerson(pStart, firstname, lastname);
+
+	// Liste löschen
+	printf("Möchten Sie die Ganze Liste löschen? [j/n]: ");
+	scanf_s(" %c", &yesOrNo);
+
+	if (yesOrNo == 'j') {
+		deleteList(pStart);
+	}
+
 	printList(pStart);
 
-	deleteList(pStart);
-	// Liste löschen
-	//printf("Geben Sie \"j\" ein wenn Sie die Liste loeschen moechten.");
-	//char yesOrNo;
-	//scanf_s("%c", &yesOrNo);
-
-	//if (yesOrNo == 'j') {
-	//	deleteList(pStart);
-	//}
+	system("pause");
 	system("pause");
 }
