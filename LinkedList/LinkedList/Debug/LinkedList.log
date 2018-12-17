@@ -1,18 +1,18 @@
 ﻿  LinkedList.cpp
-c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(95): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(95): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(95): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(95): note: Dieses Argument wird als Puffergröße verwendet.
-c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(102): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(102): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(102): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(102): note: Dieses Argument wird als Puffergröße verwendet.
-c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(104): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(104): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(104): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(104): note: Dieses Argument wird als Puffergröße verwendet.
-c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(110): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(110): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(110): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
-  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(110): note: Dieses Argument wird als Puffergröße verwendet.
+c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(136): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(136): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(136): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(136): note: Dieses Argument wird als Puffergröße verwendet.
+c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(143): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(143): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(143): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(143): note: Dieses Argument wird als Puffergröße verwendet.
+c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(145): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(145): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(145): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(145): note: Dieses Argument wird als Puffergröße verwendet.
+c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(151): warning C4473: "scanf_s": nicht genügend Argumente für Formatzeichenfolge übergeben
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(151): note: Platzhalter und deren Parameter erwarten 2 variadic-Argumente, es wurden aber 1 variadic-Argumente bereitgestellt.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(151): note: Das fehlende variadic-Argument "2" ist für die Zeichenfolge "%c" erforderlich.
+  c:\workspace\m318\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(151): note: Dieses Argument wird als Puffergröße verwendet.
   LinkedList.vcxproj -> C:\Workspace\M318\LinkedList_M411\LinkedList\Debug\LinkedList.exe

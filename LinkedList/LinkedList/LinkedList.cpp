@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "time.h"
+#include "LinkedList.h"
 
 typedef struct Person {
 	char firstname[40];
@@ -60,7 +61,7 @@ void deletePerson(struPerson* pStart, char firstname, char lastname) {
 	struPerson* pPreviousPerson = pStart;
 	// Um sicherzustellen das die erste Person keine ist, die gelöscht werden soll
 	// FUNKTIONIERT IRGENDWIE NICHT!!!
-	//if (pPreviousPerson->firstname[0] == firstname && pPreviousPerson->lastname[0])
+	//if (pPreviousPerson->firstname[0] == firstname && pPreviousPerson->lastname[0] == lastname)
 	//{
 	//	struPerson* pNext = pPreviousPerson->pNext;
 	//	free(pPreviousPerson);
@@ -83,6 +84,46 @@ void deletePerson(struPerson* pStart, char firstname, char lastname) {
 	}
 }
 
+void swapValues(struPerson* pCurrentPerson, struPerson* pNext) {
+	// Werte zu CurrentPerson zwischenspeichern
+	char lastnameOfCurrentPerson[40], firstnameOfCurrentPerson[40];
+	int yearOfCurrentPerson;
+	strcpy_s(firstnameOfCurrentPerson, pCurrentPerson->firstname);
+	strcpy_s(lastnameOfCurrentPerson, pCurrentPerson->lastname);
+	yearOfCurrentPerson = pCurrentPerson->year;
+	// Werte tauschen
+	strcpy_s(pCurrentPerson->firstname, pNext->firstname);
+	strcpy_s(pCurrentPerson->lastname, pNext->lastname);
+	pCurrentPerson->year = pNext->year;
+
+	strcpy_s(pNext->firstname, firstnameOfCurrentPerson);
+	strcpy_s(pNext->lastname, lastnameOfCurrentPerson);
+	pNext->year = yearOfCurrentPerson;
+}
+
+/*Wie auch noch nahc Vornamen sortieren?????????*/
+void bubbleSort(struPerson* pStart) {
+		bool isSorting;
+		struPerson* pCurrentPerson;
+		struPerson* pNext;
+	// erste Schleife läuft, solange in der zweiten Schleife sortiert wird
+	do {
+		isSorting = false;
+		pCurrentPerson = pStart;
+		pNext = pCurrentPerson->pNext;
+		//zweite Schleife durchläuft alle Elemente
+		while (pNext != NULL) {
+			if (pCurrentPerson->lastname[0] > pNext->lastname[0]) {
+				swapValues(pCurrentPerson, pNext);
+				isSorting = true;
+			}
+			pCurrentPerson = pNext;
+			pNext = pNext->pNext;
+		}
+	} while (isSorting);
+}
+
+
 void main() {
 	srand((unsigned)time(NULL));
 	// Liste erstellen
@@ -103,8 +144,8 @@ void main() {
 		scanf_s(" %c", &firstname);
 		printf("Geben Sie den Nachnamen ein: ");
 		scanf_s(" %c", &lastname);
+		deletePerson(pStart, firstname, lastname);
 	}
-	deletePerson(pStart, firstname, lastname);
 
 	// Liste löschen
 	printf("Möchten Sie die Ganze Liste löschen? [j/n]: ");
@@ -113,9 +154,12 @@ void main() {
 	if (yesOrNo == 'j') {
 		deleteList(pStart);
 	}
-
+	printList(pStart);
+	
+	bubbleSort(pStart);
+	
+	printf("\n\n\nSortierte Liste:\n");
 	printList(pStart);
 
-	system("pause");
 	system("pause");
 }
