@@ -57,22 +57,23 @@ void printList(struPerson* pStart) {
 	}
 }
 
-void deletePerson(struPerson* pStart, char firstname, char lastname) {
+struPerson* deletePerson(struPerson* pStart, char firstname, char lastname) {
 	struPerson* pPreviousPerson = pStart;
-	// Um sicherzustellen das die erste Person keine ist, die gelöscht werden soll
-	// FUNKTIONIERT IRGENDWIE NICHT!!!
-	//if (pPreviousPerson->firstname[0] == firstname && pPreviousPerson->lastname[0] == lastname)
-	//{
-	//	struPerson* pNext = pPreviousPerson->pNext;
-	//	free(pPreviousPerson);
-	//	pPreviousPerson = pNext;
-	//}
+	// Um sicherzustellen das PreviousPerson keine Person ist, die gelöscht werden soll
+	while (pPreviousPerson->firstname[0] == firstname && pPreviousPerson->lastname[0] == lastname)
+	{
+		struPerson* pNext = pPreviousPerson->pNext;
+		free(pPreviousPerson);
+		pPreviousPerson = pNext;
+		pStart = pNext;
+		return pStart;
+	}
 
 	struPerson* pCurrentPerson = pPreviousPerson->pNext;
 	while (pCurrentPerson != NULL)
 	{
 		struPerson* pNext = pCurrentPerson->pNext;
-		if (pCurrentPerson->firstname[0] == firstname && pCurrentPerson->lastname[0]) {
+		if (pCurrentPerson->firstname[0] == firstname && pCurrentPerson->lastname[0] == lastname) {
 			free(pCurrentPerson);
 			pPreviousPerson->pNext = pNext;
 		}
@@ -82,6 +83,8 @@ void deletePerson(struPerson* pStart, char firstname, char lastname) {
 		}
 		pCurrentPerson = pNext;
 	}
+
+	return pStart;
 }
 
 void swapValues(struPerson* pCurrentPerson, struPerson* pNext) {
@@ -101,7 +104,6 @@ void swapValues(struPerson* pCurrentPerson, struPerson* pNext) {
 	pNext->year = yearOfCurrentPerson;
 }
 
-/*Wie auch noch nahc Vornamen sortieren?????????*/
 void bubbleSort(struPerson* pStart) {
 		bool isSorting;
 		struPerson* pCurrentPerson;
@@ -113,7 +115,13 @@ void bubbleSort(struPerson* pStart) {
 		pNext = pCurrentPerson->pNext;
 		//zweite Schleife durchläuft alle Elemente
 		while (pNext != NULL) {
+			//Nachname sortieren
 			if (pCurrentPerson->lastname[0] > pNext->lastname[0]) {
+				swapValues(pCurrentPerson, pNext);
+				isSorting = true;
+			// Vorname sortieren
+			} else if (pCurrentPerson->lastname[0] == pNext->lastname[0]
+				&& pCurrentPerson->firstname[0] > pNext->firstname[0]) {
 				swapValues(pCurrentPerson, pNext);
 				isSorting = true;
 			}
@@ -144,7 +152,7 @@ void main() {
 		scanf_s(" %c", &firstname);
 		printf("Geben Sie den Nachnamen ein: ");
 		scanf_s(" %c", &lastname);
-		deletePerson(pStart, firstname, lastname);
+		pStart = deletePerson(pStart, firstname, lastname);
 	}
 
 	// Liste löschen
