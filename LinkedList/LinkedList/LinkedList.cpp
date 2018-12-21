@@ -104,6 +104,12 @@ void swapValues(struPerson* pCurrentPerson, struPerson* pNext) {
 	pNext->year = yearOfCurrentPerson;
 }
 
+
+void swapElements(struPerson* pCurrentPerson, struPerson* pNext) {
+	pCurrentPerson->pNext = pNext->pNext;
+	pNext->pNext = pCurrentPerson;
+}
+
 void bubbleSort(struPerson* pStart) {
 		bool isSorting;
 		struPerson* pCurrentPerson;
@@ -116,12 +122,12 @@ void bubbleSort(struPerson* pStart) {
 		//zweite Schleife durchläuft alle Elemente
 		while (pNext != NULL) {
 			//Nachname sortieren
-			if (pCurrentPerson->lastname[0] > pNext->lastname[0]) {
+			if (strcmp(pCurrentPerson->lastname, pNext->lastname) > 0) {
 				swapValues(pCurrentPerson, pNext);
 				isSorting = true;
 			// Vorname sortieren
-			} else if (pCurrentPerson->lastname[0] == pNext->lastname[0]
-				&& pCurrentPerson->firstname[0] > pNext->firstname[0]) {
+			} else if (strcmp(pCurrentPerson->lastname, pNext->lastname) == 0
+				&& strcmp(pCurrentPerson->firstname, pNext->firstname) > 0) {
 				swapValues(pCurrentPerson, pNext);
 				isSorting = true;
 			}
@@ -129,6 +135,14 @@ void bubbleSort(struPerson* pStart) {
 			pNext = pNext->pNext;
 		}
 	} while (isSorting);
+}
+
+void displayElements(int amount, struPerson* pStart) {
+	while (amount != 0) {
+		printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pStart->firstname[0], pStart->lastname[0], pStart->year);
+		pStart = pStart->pNext;
+		--amount;
+	}
 }
 
 
@@ -139,7 +153,6 @@ void main() {
 	int numberOfElements;
 	scanf_s("%d", &numberOfElements);
 	struPerson* pStart = create(numberOfElements);
-	printList(pStart);
 	char yesOrNo;
 	printf("\n\nMoechten Sie einige Elemente loeschen? [j/n]: ");
 	scanf_s(" %c", &yesOrNo);
@@ -162,12 +175,15 @@ void main() {
 	if (yesOrNo == 'j') {
 		deleteList(pStart);
 	}
-	printList(pStart);
 	
 	bubbleSort(pStart);
 	
 	printf("\n\n\nSortierte Liste:\n");
-	printList(pStart);
+
+	printf_s("Wie viele Elemente möchten sie ausgeben?\n");
+	int anzEL = 0;
+	scanf_s("%i", &anzEL);
+	displayElements(anzEL, pStart);
 
 	system("pause");
 }
