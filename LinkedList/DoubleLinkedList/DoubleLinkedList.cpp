@@ -93,6 +93,66 @@ struPerson* deletePerson(struPerson* pStart, char firstname, char lastname) {
 	return pStart;
 }
 
+struPerson* swapWithNextElement(struPerson* pCurrent) {
+
+	struPerson* pNext = pCurrent->pNext;
+	struPerson* pPrevious = pCurrent->pPrev;
+
+	// links for current node
+	pCurrent->pNext = pCurrent->pNext->pNext;
+	pCurrent->pPrev = pNext;
+
+	// links for next node
+	pNext->pNext = pCurrent;
+	pNext->pPrev = pPrevious;
+
+	//link for previous node
+	if (pPrevious != NULL)
+	{
+		pPrevious->pNext = pNext;
+	}
+
+	return pCurrent;
+}
+
+struPerson* bubbleSort(struPerson* pStart) {
+	struPerson* pCurrent;
+	struPerson* pNext;
+	bool isSorting;
+	do
+	{
+		isSorting = false;
+		pCurrent = pStart;
+		pNext = pStart->pNext;
+
+		while (pNext != NULL)
+		{
+			if (strcmp(pCurrent->lastname, pNext->lastname) > 0)
+			{
+				if (pCurrent->pPrev == NULL)
+				{
+					pStart = pCurrent->pNext;
+				}
+				pNext = swapWithNextElement(pCurrent);
+				isSorting = true;
+			}
+			else if (strcmp(pCurrent->lastname, pNext->lastname) == 0
+				&& strcmp(pCurrent->firstname, pNext->firstname) > 0)
+			{
+				if (pCurrent->pPrev == NULL)
+				{
+					pStart = pCurrent->pNext;
+				}
+				pNext = swapWithNextElement(pCurrent);
+				isSorting = true;
+			}
+		}
+	} while (isSorting);
+
+	return pStart;
+}
+
+
 void printList(struPerson* pStart) {
 	for (struPerson* pOutput = pStart; pOutput != NULL; pOutput = pOutput->pNext) {
 		printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pOutput->firstname[0], pOutput->lastname[0], pOutput->year);
@@ -125,6 +185,7 @@ void main() {
 		pStart = deletePerson(pStart, firstname, lastname);
 	}
 
+	pStart = bubbleSort(pStart);
 	printList(pStart);
 
 	system("pause");
