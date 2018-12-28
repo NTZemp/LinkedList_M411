@@ -1,19 +1,7 @@
-﻿  LinkedList.cpp
-c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(164): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(164): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(164): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(164): note: this argument is used as a buffer size
-c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(171): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(171): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(171): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(171): note: this argument is used as a buffer size
-c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(173): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(173): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(173): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(173): note: this argument is used as a buffer size
-c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(181): warning C4473: 'scanf_s' : not enough arguments passed for format string
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(181): note: placeholders and their parameters expect 2 variadic arguments, but 1 were provided
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(181): note: the missing variadic argument 2 is required by format string '%c'
-  c:\users\vmadmin\documents\github\linkedlist_m411\linkedlist_m411\linkedlist\linkedlist\linkedlist.cpp(181): note: this argument is used as a buffer size
-  LinkedList.vcxproj -> C:\Users\vmadmin\Documents\GitHub\LinkedList_M411\LinkedList_M411\LinkedList\Debug\LinkedList.exe
-  LinkedList.vcxproj -> C:\Users\vmadmin\Documents\GitHub\LinkedList_M411\LinkedList_M411\LinkedList\Debug\LinkedList.pdb (Partial PDB)
+﻿  DoubleLinkedList.cpp
+LinkedList.obj : error LNK2005: "struct Person * __cdecl create(int)" (?create@@YAPAUPerson@@H@Z) ist bereits in DoubleLinkedList.obj definiert.
+LinkedList.obj : error LNK2005: "void __cdecl printList(struct Person *)" (?printList@@YAXPAUPerson@@@Z) ist bereits in DoubleLinkedList.obj definiert.
+LinkedList.obj : error LNK2005: "char __cdecl randomName(void)" (?randomName@@YADXZ) ist bereits in DoubleLinkedList.obj definiert.
+LinkedList.obj : error LNK2005: "int __cdecl randomYear(void)" (?randomYear@@YAHXZ) ist bereits in DoubleLinkedList.obj definiert.
+LinkedList.obj : error LNK2005: _main ist bereits in DoubleLinkedList.obj definiert.
+C:\Workspace\M318\LinkedList_M411\LinkedList\Debug\LinkedList.exe : fatal error LNK1169: Mindestens ein mehrfach definiertes Symbol gefunden.

@@ -2,7 +2,6 @@
 #include "stdlib.h"
 #include "string.h"
 #include "time.h"
-#include "LinkedList.h"
 
 typedef struct Person {
 	char firstname[40];
@@ -143,6 +142,9 @@ void displayElements(int amount, struPerson* pStart) {
 		pStart = pStart->pNext;
 		--amount;
 	}
+	if (amount == 0) {
+		printList(pStart);
+	}
 }
 
 
@@ -177,8 +179,6 @@ void main() {
 	}
 	
 	bubbleSort(pStart);
-	
-	printf("\n\n\nSortierte Liste:\n");
 
 	printf_s("Wie viele Elemente möchten sie ausgeben?\n");
 	int anzEL = 0;
