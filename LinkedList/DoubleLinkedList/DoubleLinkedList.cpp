@@ -11,6 +11,9 @@ typedef struct Person {
 	struct Person* pPrev;
 } struPerson;
 
+
+
+
 char randomName() {
 	return rand() % 26 + 'A';
 }
@@ -115,6 +118,72 @@ struPerson* swapWithNextElement(struPerson* pCurrent) {
 	return pCurrent;
 }
 
+int GetNumberOfElements(struPerson* pStart) {
+	struPerson* pCurrent = pStart;
+	int counter = 1;
+	while (pCurrent->pNext != NULL)
+	{
+		counter++;
+		pCurrent = pCurrent->pNext;
+	}
+	free(pCurrent);
+	free(pStart);
+	return counter;
+}
+
+struPerson* GetElementAt(int index, struPerson* pStart) {
+	struPerson* pCurrent = pStart;
+	int counter = 0;
+	while (counter != index) {
+		counter++;
+		pCurrent = pCurrent->pNext;
+	} 
+	return pCurrent;
+}
+
+void SetElementToStart(struPerson* pStart, struPerson* pElementToStart) {
+	pElementToStart->pPrev = NULL;
+	pElementToStart->pNext = pStart;
+	pStart->pPrev = pElementToStart;
+}
+
+void swapElements(struPerson* pElement1, struPerson* pElement2) {
+	struPerson* pTemp = (struPerson*)malloc(sizeof(struPerson));
+	//Copy Element1 into Temp
+	pTemp->pNext = pElement1->pNext;
+	pTemp->pPrev = pElement1->pPrev;
+	//Put Element1 to the same Position as Element2
+	pElement1->pNext = pElement2->pNext;
+	pElement1->pPrev = pElement2->pPrev;
+	//Put Element2 to the Position were Element1 was
+	pElement2->pNext = pTemp->pNext;
+	pElement2->pPrev = pTemp->pPrev;
+}
+
+
+/*Dä esch scheisse
+struPerson* selectionSort(struPerson* pStart) {
+	struPerson* pCurrent = pStart;
+	int i, j, min_index, n;
+	n = GetNumberOfElements(pStart);
+	for (i = 0; i <= n-1; i++) {
+		min_index = i;
+		for (j = i+1; j <= n-1; j++) {
+			pCurrent = GetElementAt(j, pStart);
+			if (pCurrent->lastname < GetElementAt(min_index, pStart)->lastname) {
+				swapElements(pStart, pCurrent);
+				min_index = j;
+				pStart = pCurrent;
+			}
+			
+		}
+		
+	}
+	return NULL;
+}*/
+
+
+
 struPerson* bubbleSort(struPerson* pStart) {
 	struPerson* pCurrent;
 	struPerson* pNext;
@@ -127,12 +196,15 @@ struPerson* bubbleSort(struPerson* pStart) {
 
 		while (pNext != NULL)
 		{
+			//if pNext -> Lastname is less than pCurrent -> Lastname, then swapp those elements
 			if (strcmp(pCurrent->lastname, pNext->lastname) > 0)
 			{
+				//if pCurrent was the first Element in the List, set the the next element after pCurrent as Start
 				if (pCurrent->pPrev == NULL)
 				{
 					pStart = pCurrent->pNext;
 				}
+				//Swap Elements
 				pNext = swapWithNextElement(pCurrent);
 				isSorting = true;
 			}
@@ -159,7 +231,22 @@ void printList(struPerson* pStart) {
 	}
 }
 
+
+void PrintElement(struPerson* pElement) {
+	printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pElement->firstname[0], pElement->lastname[0], pElement->year);
+}
+
 void main() {
+	srand((unsigned)time(NULL));
+	struPerson* pStart = create(5);
+	printList(pStart);
+
+	PrintElement(GetElementAt(3, pStart));
+
+	printf_s("\n\nNumber of Elements: %i\n", GetNumberOfElements(pStart));
+	system("pause");
+}
+/*void main() {
 	srand((unsigned)time(NULL));
 
 	printf("Geben Sie die Anzahl Elemente die Sie erstellen moechten ein: ");
@@ -189,4 +276,4 @@ void main() {
 	printList(pStart);
 
 	system("pause");
-}
+}*/
