@@ -12,16 +12,26 @@ typedef struct Person {
 } struPerson;
 
 
-
-
+/* 
+    Autor: Lino Meyer
+    Gibt einen zufälligen Grossbuchstaben zurück
+*/
 char randomName() {
     return rand() % 26 + 'A';
 }
 
+/*
+    Autor: Lino Meyer
+    Gibt ein zufälliges Jahr zwischen 1900 und 2018 zurück
+*/
 int randomYear() {
     return 1900 + (rand() % 119);
 }
 
+/*
+    Autor: Lino Meyer
+    Erstellt eine doppelt verkettete Liste mit einer bestimmten Anzahl Elementen
+*/
 struPerson* create(int amount) {
     struPerson* pStart = NULL;
     struPerson* pLast = NULL;
@@ -50,6 +60,10 @@ struPerson* create(int amount) {
     return pStart;
 }
 
+/*
+    Autor: Lino Meyer
+    Löscht die Ganze Liste
+*/
 void deleteList(struPerson* pStart) {
     struPerson* pCurrentPerson = pStart;
     struPerson* pNextPerson;
@@ -63,6 +77,10 @@ void deleteList(struPerson* pStart) {
     }
 }
 
+/*
+    Autor: Lino Meyer
+    Löscht alle Personen mit dem angegebenen Vor- und Nachnamen
+*/
 struPerson* deletePerson(struPerson* pStart, char firstname, char lastname) {
     struPerson* pCurrent = pStart;
     while (pCurrent != NULL)
@@ -96,7 +114,9 @@ struPerson* deletePerson(struPerson* pStart, char firstname, char lastname) {
     return pStart;
 }
 
-
+/*
+    Autor: Noah Zemp
+*/
 int GetNumberOfElements(struPerson* pStart) {
     struPerson* pCurrent = pStart;
     int counter = 1;
@@ -110,6 +130,9 @@ int GetNumberOfElements(struPerson* pStart) {
     return counter;
 }
 
+/*
+    Autor: Noah Zemp
+*/
 struPerson* GetElementAt(int index, struPerson* pStart) {
     struPerson* pCurrent = pStart;
     int counter = 0;
@@ -120,12 +143,18 @@ struPerson* GetElementAt(int index, struPerson* pStart) {
     return pCurrent;
 }
 
+/*
+    Autor: Noah Zemp
+*/
 void SetElementToStart(struPerson* pStart, struPerson* pElementToStart) {
     pElementToStart->pPrev = NULL;
     pElementToStart->pNext = pStart;
     pStart->pPrev = pElementToStart;
 }
 
+/*
+    Autor: Noah Zemp
+*/
 void swapElements(struPerson* pElement1, struPerson* pElement2) {
     struPerson* pTemp = (struPerson*)malloc(sizeof(struPerson));
     //Copy Element1 into Temp
@@ -138,7 +167,6 @@ void swapElements(struPerson* pElement1, struPerson* pElement2) {
     pElement2->pNext = pTemp->pNext;
     pElement2->pPrev = pTemp->pPrev;
 }
-
 
 /*Dä esch scheisse
 struPerson* selectionSort(struPerson* pStart) {
@@ -161,127 +189,94 @@ struPerson* selectionSort(struPerson* pStart) {
     return NULL;
 }*/
 
+/*
+    Autor: Lino Meyer
+    Tauscht die Position eines Elements mit dem nächsten
+*/
+struPerson* swapWithNextElement(struPerson* pStart, struPerson* pCurrent) {
 
+    struPerson* pBefore = pCurrent->pPrev;
+    struPerson* pAfter = pCurrent->pNext;
+    struPerson* pAfterAfter = pAfter->pNext;
 
-//struPerson* bubbleSort(struPerson* pStart) {
-//	struPerson* pCurrent;
-//	struPerson* pNext;
-//	bool isSorting;
-//	do
-//	{
-//		isSorting = false;
-//		pCurrent = pStart;
-//		pNext = pStart->pNext;
-//
-//		while (pNext != NULL)
-//		{
-//			//if pNext -> Lastname is less than pCurrent -> Lastname, then swap those elements
-//			if (strcmp(pCurrent->lastname, pNext->lastname) > 0)
-//			{
-//				//Swap Elements
-//				pCurrent = swapWithNextElement(pCurrent);
-//				isSorting = true;
-//			}
-//			else if (strcmp(pCurrent->lastname, pNext->lastname) == 0
-//				&& strcmp(pCurrent->firstname, pNext->firstname) > 0)
-//			{
-//				pCurrent = swapWithNextElement(pCurrent);
-//				isSorting = true;
-//            }
-//            if (pCurrent->pPrev == NULL)
-//            {
-//                pStart = pCurrent;
-//            }
-//            pCurrent = pNext;
-//            pNext = pNext->pNext;
-//		}
-//	} while (isSorting);
-//
-//	return pStart;
-//}
-
-struPerson* swapWithNextElement(struPerson* pCurrent) {
-
-    struPerson* pNext = pCurrent->pNext;
-    struPerson* pPrevious = pCurrent->pPrev;
-
-    // links for current node
-    pCurrent->pNext = pNext->pNext;
-    pCurrent->pPrev = pNext;
-
-    // links for next node
-    pNext->pNext = pCurrent;
-    pNext->pPrev = pPrevious;
-
-    // link for previous node
-    if (pPrevious != NULL)
-    {
-        pPrevious->pNext = pNext;
+    if (pCurrent == pStart) {
+        pStart = pAfter;
     }
 
-    //link for next next node
-    if (pNext->pNext != NULL) {
-        pNext->pNext->pPrev = pCurrent;
+    // vorherigen Node neu verknüpfen
+    if (pBefore != NULL) {
+        pBefore->pNext = pAfter;
     }
-    return pCurrent;
+    // jetzigen Node neu verknüpfen
+    pCurrent->pNext = pAfter->pNext;
+    pCurrent->pPrev = pAfter;
+    // nächsten Node neu verknüpfen
+    pAfter->pNext = pCurrent;
+    pAfter->pPrev = pBefore;
+    // übernächsten Node neu verknüpfen
+    if (pAfterAfter != NULL) pAfterAfter->pPrev = pCurrent;
+
+    return pStart;
 }
 
+/*
+    Autor: Lino Meyer
+    Sortiert die Liste nach Bubblesort vorgehen.
+*/
 struPerson* bubbleSort(struPerson* pStart) {
     bool isSorting;
-    bool isPStart;
     struPerson* pCurrent;
     do
     {
         isSorting = false;
-        isPStart = false;
         pCurrent = pStart;
-        while (pCurrent->pNext != NULL) {
-            if (strcmp(pCurrent->lastname, pCurrent->pNext->lastname) > 0) {
+        while (pCurrent != NULL && pCurrent->pNext != NULL) {
+            struPerson* pNext = pCurrent->pNext;
+            if (strcmp(pCurrent->lastname, pNext->lastname) > 0) {
+                pStart = swapWithNextElement(pStart, pCurrent);
+                /* da pCurrent jetzt den an dem Ort ist an dem pNext zuvor war, 
+                   wird pCurrent auf diesen Wert gesetzt damit kein Element übersprungen wird. */
+                pCurrent = pNext;
                 isSorting = true;
-                struPerson* pBefore = pCurrent->pPrev;
-                struPerson* pAfter = pCurrent->pNext;
-                // vorherigen Node neu verknüpfen
-                if (pBefore != NULL) {
-                    pBefore->pNext = pAfter;
-                }
-                else {
-                    isPStart = true;
-                }
-                // jetzigen Node neu verknüpfen
-                pCurrent->pNext = pAfter->pNext;
-                pCurrent->pPrev = pAfter;
-                // nächsten Node neu verknüpfen
-                pAfter->pNext = pCurrent;
-                pAfter->pPrev = pBefore;
+                isSorting = true;
             }
-            else {
-                pCurrent = pCurrent->pNext;
+            // AM FREITAG IM UNTERRICHT FRAGEN?
+            // nach Vornamen sortieren funktioniert mysteriöserweise nicht
+            else if (strcmp(pCurrent->lastname, pNext->lastname) == 0
+                && strcmp(pCurrent->firstname, pNext->firstname) > 0) {
+                    pStart = swapWithNextElement(pStart, pCurrent);
+                    pCurrent = pNext;
+                    isSorting = true;
             }
-
-            if (isPStart == true) {
-                pStart = pCurrent;
-                isPStart = false;
-            }
+            pCurrent = pCurrent->pNext;
         }
     } while (isSorting);
     return pStart;
 }
 
-
+/*
+    Autor: Lino Meyer
+    Gibt die Ganze Liste in der Konsole aus
+*/
 void printList(struPerson* pStart) {
     for (struPerson* pOutput = pStart; pOutput != NULL; pOutput = pOutput->pNext) {
         printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pOutput->firstname[0], pOutput->lastname[0], pOutput->year);
     }
 }
 
-
+/*
+    Autor: Noah Zemp
+*/
 void PrintElement(struPerson* pElement) {
     printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pElement->firstname[0], pElement->lastname[0], pElement->year);
 }
 
+/*
+    Autor: Noah Zemp
+*/
 void main() {
     srand((unsigned)time(NULL));
-    struPerson* pStart = create(5);
+    struPerson* pStart = create(150);
     printList(pStart);
     pStart = bubbleSort(pStart);
     printf("\n\n");
@@ -289,6 +284,7 @@ void main() {
     printf_s("\n\nNumber of Elements: %i\n", GetNumberOfElements(pStart));
     system("pause");
 }
+
 /*void main() {
     srand((unsigned)time(NULL));
 
