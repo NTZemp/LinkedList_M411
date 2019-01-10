@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "time.h"
+#include "chrono"
 
 typedef struct Person {
     char firstname[40];
@@ -12,7 +13,7 @@ typedef struct Person {
 } struPerson;
 
 
-/* 
+/*
     Autor: Lino Meyer
     Gibt einen zufälligen Grossbuchstaben zurück
 */
@@ -215,7 +216,7 @@ struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
                 //Nach Nachnamen sortieren
                 if (strcmp(pCurrent->lastname, pNext->lastname) > 0) {
                     pStart = swapWithNextElement(pStart, pCurrent);
-                    /* da pCurrent jetzt den an dem Ort ist an dem pNext zuvor war, 
+                    /* da pCurrent jetzt den an dem Ort ist an dem pNext zuvor war,
                        wird pCurrent auf diesen Wert gesetzt damit kein Element übersprungen wird. */
                     pCurrent = pNext;
                     isSorting = true;
@@ -233,7 +234,7 @@ struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
                     {
                         // Nach Vor- Nachnamen und Jahr sortieren
                         if (strcmp(pCurrent->lastname, pNext->lastname) == 0 &&
-                            strcmp(pCurrent->firstname, pNext->firstname) == 0 && 
+                            strcmp(pCurrent->firstname, pNext->firstname) == 0 &&
                             pCurrent->year > pNext->year) {
                             pStart = swapWithNextElement(pStart, pCurrent);
                             pCurrent = pNext;
@@ -279,6 +280,20 @@ struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
             pCurrent = pCurrent->pNext;
         }
     } while (isSorting);
+    return pStart;
+}
+
+struPerson* insertionSort(struPerson* pStart) {
+    // Schleife durch Ganze Liste, beginnt beim ersten Element nach pStart
+    for (struPerson* pCurrent = pStart->pNext; pCurrent != NULL; pCurrent->pNext) {
+        struPerson* pBefore = pCurrent->pPrev;
+        // Schleife geht zurück zum Start solange der Nachname des vorherigen Elements grösser ist
+        while (pBefore != NULL && pBefore->lastname > pCurrent->lastname) {
+            /*
+                Sortierlogik
+            */
+        }
+    }
     return pStart;
 }
 
@@ -348,9 +363,9 @@ void main() {
         if (strcmp(input, "dl") == 0) {
             deleteList(pStart);
             return;
-        } 
+        }
         // Person löschen
-        else if (strcmp(input, "dp") == 0){
+        else if (strcmp(input, "dp") == 0) {
             printf("\nWie heisst die Person die Sie löschen wollen?");
             printf("\nVorname: ");
             char firstname[40];
@@ -360,6 +375,7 @@ void main() {
             gets_s(lastname);
             pStart = deletePerson(pStart, firstname, lastname);
         }
+        // Bubblesort mit Sortierkriterien
         else if (strcmp(input, "bs") == 0) {
             /*Die Priorität beim sortieren ist festgelegt, zuerst Nachname dann Vorname, dann Jahr
               Es kann also nicht nach Jahr und dann nach Nachname sortiert werden, umgekehrt aber schon.
@@ -367,14 +383,22 @@ void main() {
             printf("\nNach welchen Variablen möchten Sie sortieren? [l = Nachname, f = Vorname, y = Jahr] z.B. \"lf\": ");
             char sortingCriteria[4];
             gets_s(sortingCriteria);
+
+            // Zeitmessung Start
+            auto start = std::chrono::high_resolution_clock::now();
             pStart = bubbleSort(pStart, sortingCriteria);
+            //Zeitmessung Ende
+            auto finish = std::chrono::high_resolution_clock::now();
+            //Messzeit
+            std::chrono::duration<double> timeElapsed = finish - start;
+            printf("%f\n", (double)timeElapsed.count());
         }
         else if (strcmp(input, "quit") == 0) {
             return;
         }
         else {
             printf("\nFalsche Eingabe\n");
-;        }
+        }
 
     }
     system("pause");
