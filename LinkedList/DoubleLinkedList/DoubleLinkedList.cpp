@@ -43,7 +43,7 @@ struPerson* create(int amount) {
         pNew->firstname[0] = randomName();
         pNew->firstname[1] = '\0';
         pNew->lastname[0] = randomName();
-        pNew->firstname[1] = '\0';
+        pNew->lastname[1] = '\0';
         pNew->year = randomYear();
         if (pStart == NULL) {
             pStart = pNew;
@@ -81,13 +81,13 @@ void deleteList(struPerson* pStart) {
     Autor: Lino Meyer
     Löscht alle Personen mit dem angegebenen Vor- und Nachnamen
 */
-struPerson* deletePerson(struPerson* pStart, char firstname, char lastname) {
+struPerson* deletePerson(struPerson* pStart, const char* firstname, const char* lastname) {
     struPerson* pCurrent = pStart;
     while (pCurrent != NULL)
     {
         struPerson* pNext = pCurrent->pNext;
 
-        if (firstname == pCurrent->firstname[0] && lastname == pCurrent->lastname[0])
+        if (strcmp(firstname, pCurrent->firstname) == 0 && strcmp(lastname, pCurrent->lastname) == 0)
         {
             if (pCurrent->pPrev == NULL)
             {
@@ -168,27 +168,6 @@ void swapElements(struPerson* pElement1, struPerson* pElement2) {
     pElement2->pPrev = pTemp->pPrev;
 }
 
-/*Dä esch scheisse
-struPerson* selectionSort(struPerson* pStart) {
-    struPerson* pCurrent = pStart;
-    int i, j, min_index, n;
-    n = GetNumberOfElements(pStart);
-    for (i = 0; i <= n-1; i++) {
-        min_index = i;
-        for (j = i+1; j <= n-1; j++) {
-            pCurrent = GetElementAt(j, pStart);
-            if (pCurrent->lastname < GetElementAt(min_index, pStart)->lastname) {
-                swapElements(pStart, pCurrent);
-                min_index = j;
-                pStart = pCurrent;
-            }
-
-        }
-
-    }
-    return NULL;
-}*/
-
 /*
     Autor: Lino Meyer
     Tauscht die Position eines Elements mit dem nächsten
@@ -223,7 +202,7 @@ struPerson* swapWithNextElement(struPerson* pStart, struPerson* pCurrent) {
     Autor: Lino Meyer
     Sortiert die Liste nach Bubblesort vorgehen.
 */
-struPerson* bubbleSort(struPerson* pStart) {
+struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
     bool isSorting;
     struPerson* pCurrent;
     do
@@ -232,21 +211,70 @@ struPerson* bubbleSort(struPerson* pStart) {
         pCurrent = pStart;
         while (pCurrent != NULL && pCurrent->pNext != NULL) {
             struPerson* pNext = pCurrent->pNext;
-            if (strcmp(pCurrent->lastname, pNext->lastname) > 0) {
-                pStart = swapWithNextElement(pStart, pCurrent);
-                /* da pCurrent jetzt den an dem Ort ist an dem pNext zuvor war, 
-                   wird pCurrent auf diesen Wert gesetzt damit kein Element übersprungen wird. */
-                pCurrent = pNext;
-                isSorting = true;
-                isSorting = true;
+            if (sortingCriteria[0] == 'l') {
+                //Nach Nachnamen sortieren
+                if (strcmp(pCurrent->lastname, pNext->lastname) > 0) {
+                    pStart = swapWithNextElement(pStart, pCurrent);
+                    /* da pCurrent jetzt den an dem Ort ist an dem pNext zuvor war, 
+                       wird pCurrent auf diesen Wert gesetzt damit kein Element übersprungen wird. */
+                    pCurrent = pNext;
+                    isSorting = true;
+                }
+                if (sortingCriteria[1] == 'f')
+                {
+                    // Nach Vor- und Nachnamen sortieren
+                    if (strcmp(pCurrent->lastname, pNext->lastname) == 0
+                        && strcmp(pCurrent->firstname, pNext->firstname) > 0) {
+                        pStart = swapWithNextElement(pStart, pCurrent);
+                        pCurrent = pNext;
+                        isSorting = true;
+                    }
+                    if (sortingCriteria[2] == 'y')
+                    {
+                        // Nach Vor- Nachnamen und Jahr sortieren
+                        if (strcmp(pCurrent->lastname, pNext->lastname) == 0 &&
+                            strcmp(pCurrent->firstname, pNext->firstname) == 0 && 
+                            pCurrent->year > pNext->year) {
+                            pStart = swapWithNextElement(pStart, pCurrent);
+                            pCurrent = pNext;
+                            isSorting = true;
+                        }
+                    }
+                }
+                else if (sortingCriteria[1] == 'y')
+                {
+                    // Nach Nachnamen und Jahr sortieren
+                    if (strcmp(pCurrent->lastname, pNext->lastname) == 0 && pCurrent->year > pNext->year) {
+                        pStart = swapWithNextElement(pStart, pCurrent);
+                        pCurrent = pNext;
+                        isSorting = true;
+                    }
+                }
             }
-            // AM FREITAG IM UNTERRICHT FRAGEN?
-            // nach Vornamen sortieren funktioniert mysteriöserweise nicht
-            else if (strcmp(pCurrent->lastname, pNext->lastname) == 0
-                && strcmp(pCurrent->firstname, pNext->firstname) > 0) {
+            else if (sortingCriteria[0] == 'f')
+            {
+                // Nach Vornamen sortieren
+                if (strcmp(pCurrent->firstname, pNext->firstname) > 0) {
                     pStart = swapWithNextElement(pStart, pCurrent);
                     pCurrent = pNext;
                     isSorting = true;
+                }
+                if (sortingCriteria[1] == 'y') {
+                    // Nach Vornamen und Jahr sortieren
+                    if (strcmp(pCurrent->firstname, pNext->firstname) == 0 && pCurrent->year > pNext->year) {
+                        pStart = swapWithNextElement(pStart, pCurrent);
+                        pCurrent = pNext;
+                        isSorting = true;
+                    }
+                }
+            }
+            else if (sortingCriteria[0] == 'y') {
+                // Nach Jahr sortieren
+                if (pCurrent->year > pNext->year) {
+                    pStart = swapWithNextElement(pStart, pCurrent);
+                    pCurrent = pNext;
+                    isSorting = true;
+                }
             }
             pCurrent = pCurrent->pNext;
         }
@@ -255,64 +283,93 @@ struPerson* bubbleSort(struPerson* pStart) {
 }
 
 /*
+    Autor: Noah Zemp
+*/
+void PrintElement(struPerson* pElement) {
+    printf("Vorname: %s\nNachname: %s\nJahrgang: %d\n", pElement->firstname, pElement->lastname, pElement->year);
+}
+
+/*
     Autor: Lino Meyer
     Gibt die Ganze Liste in der Konsole aus
 */
 void printList(struPerson* pStart) {
     for (struPerson* pOutput = pStart; pOutput != NULL; pOutput = pOutput->pNext) {
-        printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pOutput->firstname[0], pOutput->lastname[0], pOutput->year);
+        PrintElement(pOutput);
     }
 }
 
-/*
-    Autor: Noah Zemp
-*/
-void PrintElement(struPerson* pElement) {
-    printf("Vorname: %c\nNachname: %c\nJahrgang: %d\n", pElement->firstname[0], pElement->lastname[0], pElement->year);
+
+void printElements(struPerson* pStart, int numberOfElements) {
+    struPerson* pCurrent = pStart;
+    if (numberOfElements == 0) {
+        printList(pStart);
+    }
+    while (numberOfElements > 0) {
+        PrintElement(pCurrent);
+        numberOfElements--;
+        pCurrent = pCurrent->pNext;
+    }
 }
 
-/*
-    Autor: Noah Zemp
-*/
+
 void main() {
     srand((unsigned)time(NULL));
-    struPerson* pStart = create(150);
-    printList(pStart);
-    pStart = bubbleSort(pStart);
-    printf("\n\n");
-    printList(pStart);
-    printf_s("\n\nNumber of Elements: %i\n", GetNumberOfElements(pStart));
+    printf("******************\nVerkettete Liste\n******************\n\n");
+    printf("Wie viele Personen soll die Liste haben? ");
+    int numberOfElements = 0;
+    scanf_s("%i", &numberOfElements);
+    struPerson* pStart = create(numberOfElements);
+    char input[40];
+
+    while (true) {
+        // diese Zeile wird zu oft ausgegeben
+        printf("Wie viele Elemente wollen Sie ausgeben? [0 = alle]: ");
+        scanf_s("%i", &numberOfElements);
+        printElements(pStart, numberOfElements);
+
+        printf("\nWas wollen Sie tun?\n\n");
+        printf("Liste löschen [\"dl\"]\n");
+        printf("Personen löschen [\"dp\"]\n");
+        printf("Liste mit BubbleSort sortieren [\"bs\"]\n");
+        printf("Programm beenden [\"quit\"]\n");
+        printf("Eingabe:");
+        getchar();
+        gets_s(input);
+        // Linien 326-328 werden hier ausgegeben!!! IM UNTERRICHT FRAGEN
+
+        // Liste löschen
+        if (strcmp(input, "dl") == 0) {
+            deleteList(pStart);
+            return;
+        } 
+        // Person löschen
+        else if (strcmp(input, "dp") == 0){
+            printf("\nWie heisst die Person die Sie löschen wollen?");
+            printf("\nVorname: ");
+            char firstname[40];
+            gets_s(firstname);
+            printf("Nachname: ");
+            char lastname[40];
+            gets_s(lastname);
+            pStart = deletePerson(pStart, firstname, lastname);
+        }
+        else if (strcmp(input, "bs") == 0) {
+            /*Die Priorität beim sortieren ist festgelegt, zuerst Nachname dann Vorname, dann Jahr
+              Es kann also nicht nach Jahr und dann nach Nachname sortiert werden, umgekehrt aber schon.
+              Ansonsten kann nach einzelnen Variablen oder auch nach mehreren sortiert werden.*/
+            printf("\nNach welchen Variablen möchten Sie sortieren? [l = Nachname, f = Vorname, y = Jahr] z.B. \"lf\": ");
+            char sortingCriteria[4];
+            gets_s(sortingCriteria);
+            pStart = bubbleSort(pStart, sortingCriteria);
+        }
+        else if (strcmp(input, "quit") == 0) {
+            return;
+        }
+        else {
+            printf("\nFalsche Eingabe\n");
+;        }
+
+    }
     system("pause");
 }
-
-/*void main() {
-    srand((unsigned)time(NULL));
-
-    printf("Geben Sie die Anzahl Elemente die Sie erstellen moechten ein: ");
-    int numberOfElements;
-    scanf_s("%d", &numberOfElements);
-    struPerson* pStart = create(numberOfElements);
-
-    printList(pStart);
-
-    char yesNo;
-    printf("Wollen Sie Personen loeschen? [j/n]: ");
-    scanf_s(" %c", &yesNo);
-
-    if (yesNo == 'j')
-    {
-        char firstname;
-        char lastname;
-        printf("Vorname: ");
-        scanf_s(" %c", &firstname);
-        printf("Nachname: ");
-        scanf_s(" %c", &lastname);
-
-        pStart = deletePerson(pStart, firstname, lastname);
-    }
-
-    pStart = bubbleSort(pStart);
-    printList(pStart);
-
-    system("pause");
-}*/

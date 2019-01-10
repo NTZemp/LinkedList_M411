@@ -1,3 +1,3 @@
 ﻿  DoubleLinkedList.cpp
-c:\workspace\m318\linkedlist_m411\linkedlist\doublelinkedlist\doublelinkedlist.cpp(275): warning C4326: Der Rückgabetyp von "main" sollte "int" und nicht "void" sein
+c:\workspace\m318\linkedlist_m411\linkedlist\doublelinkedlist\doublelinkedlist.cpp(316): warning C4326: Der Rückgabetyp von "main" sollte "int" und nicht "void" sein
   DoubleLinkedList.vcxproj -> C:\Workspace\M318\LinkedList_M411\LinkedList\Debug\DoubleLinkedList.exe
