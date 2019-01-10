@@ -61,7 +61,7 @@ struPerson* create(int amount) {
 }
 
 /*
-    Autor: Lino Meyer
+    Autor: Noah Zemp
     Löscht die Ganze Liste
 */
 void deleteList(struPerson* pStart) {
@@ -117,7 +117,7 @@ struPerson* deletePerson(struPerson* pStart, const char* firstname, const char* 
 /*
     Autor: Noah Zemp
 */
-int GetNumberOfElements(struPerson* pStart) {
+[[deprecated]] int GetNumberOfElements(struPerson* pStart) {
     struPerson* pCurrent = pStart;
     int counter = 1;
     while (pCurrent->pNext != NULL)
@@ -133,7 +133,7 @@ int GetNumberOfElements(struPerson* pStart) {
 /*
     Autor: Noah Zemp
 */
-struPerson* GetElementAt(int index, struPerson* pStart) {
+[[deprecated]] struPerson* GetElementAt(int index, struPerson* pStart) {
     struPerson* pCurrent = pStart;
     int counter = 0;
     while (counter != index) {
@@ -146,7 +146,7 @@ struPerson* GetElementAt(int index, struPerson* pStart) {
 /*
     Autor: Noah Zemp
 */
-void SetElementToStart(struPerson* pStart, struPerson* pElementToStart) {
+[[deprecated]] void SetElementToStart(struPerson* pStart, struPerson* pElementToStart) {
     pElementToStart->pPrev = NULL;
     pElementToStart->pNext = pStart;
     pStart->pPrev = pElementToStart;
@@ -155,7 +155,7 @@ void SetElementToStart(struPerson* pStart, struPerson* pElementToStart) {
 /*
     Autor: Noah Zemp
 */
-void swapElements(struPerson* pElement1, struPerson* pElement2) {
+[[deprecated]] void swapElements(struPerson* pElement1, struPerson* pElement2) {
     struPerson* pTemp = (struPerson*)malloc(sizeof(struPerson));
     //Copy Element1 into Temp
     pTemp->pNext = pElement1->pNext;
@@ -200,7 +200,7 @@ struPerson* swapWithNextElement(struPerson* pStart, struPerson* pCurrent) {
 
 /*
     Autor: Lino Meyer
-    Sortiert die Liste nach Bubblesort vorgehen.
+    Sortiert die Liste nach Bubblesort vorgehen. Der Benutzer kann wählen nach welchen Kriterien
 */
 struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
     bool isSorting;
@@ -299,7 +299,10 @@ void printList(struPerson* pStart) {
     }
 }
 
-
+/*
+    Autor: Lino Meyer
+    Gibt eine festgelegte Anzahl Elemente aus
+*/
 void printElements(struPerson* pStart, int numberOfElements) {
     struPerson* pCurrent = pStart;
     if (numberOfElements == 0) {
@@ -312,7 +315,10 @@ void printElements(struPerson* pStart, int numberOfElements) {
     }
 }
 
-
+/*
+    Autor: Noah Zemp, Lino Meyer
+    User Interaktion
+*/
 void main() {
     srand((unsigned)time(NULL));
     printf("******************\nVerkettete Liste\n******************\n\n");
@@ -334,9 +340,9 @@ void main() {
         printf("Liste mit BubbleSort sortieren [\"bs\"]\n");
         printf("Programm beenden [\"quit\"]\n");
         printf("Eingabe:");
+        // Das Enter nach einer scanf_s Eingabe bleibt im Buffer hängen
         getchar();
         gets_s(input);
-        // Linien 326-328 werden hier ausgegeben!!! IM UNTERRICHT FRAGEN
 
         // Liste löschen
         if (strcmp(input, "dl") == 0) {
