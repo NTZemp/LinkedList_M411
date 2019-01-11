@@ -118,14 +118,14 @@ struPerson* deletePerson(struPerson* pStart, const char* firstname, const char* 
 /*
     Autor: Noah Zemp
 */
-[[deprecated]] int GetNumberOfElements(struPerson* pStart) {
+int GetNumberOfElements(struPerson* pStart) {
     struPerson* pCurrent = pStart;
     int counter = 1;
     while (pCurrent->pNext != NULL)
     {
         counter++;
         pCurrent = pCurrent->pNext;
-    }
+	}
     free(pCurrent);
     free(pStart);
     return counter;
@@ -134,7 +134,7 @@ struPerson* deletePerson(struPerson* pStart, const char* firstname, const char* 
 /*
     Autor: Noah Zemp
 */
-[[deprecated]] struPerson* GetElementAt(int index, struPerson* pStart) {
+struPerson* GetElementAt(int index, struPerson* pStart) {
     struPerson* pCurrent = pStart;
     int counter = 0;
     while (counter != index) {
@@ -283,15 +283,15 @@ struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
     return pStart;
 }
 
+
+
 struPerson* insertionSort(struPerson* pStart) {
     // Schleife durch Ganze Liste, beginnt beim ersten Element nach pStart
     for (struPerson* pCurrent = pStart->pNext; pCurrent != NULL; pCurrent->pNext) {
-        struPerson* pBefore = pCurrent->pPrev;
+        struPerson* pPrev = pCurrent->pPrev;
         // Schleife geht zurück zum Start solange der Nachname des vorherigen Elements grösser ist
-        while (pBefore != NULL && pBefore->lastname > pCurrent->lastname) {
-            /*
-                Sortierlogik
-            */
+        while (pPrev != NULL && pPrev->lastname > pCurrent->lastname) {
+			swapElements(pPrev, pCurrent);
         }
     }
     return pStart;
@@ -318,21 +318,21 @@ void printList(struPerson* pStart) {
     Autor: Lino Meyer
     Gibt eine festgelegte Anzahl Elemente aus
 */
-void printElements(struPerson* pStart, int numberOfElements) {
-    struPerson* pCurrent = pStart;
-    if (numberOfElements == 0) {
-        printList(pStart);
-    }
-    while (numberOfElements > 0) {
-        PrintElement(pCurrent);
-        numberOfElements--;
-        pCurrent = pCurrent->pNext;
-    }
-}
-
 /*
     Autor: Noah Zemp, Lino Meyer
-    User Interaktion
+void printElements(struPerson* pStart, int numberOfElements) {
+	struPerson* pCurrent = pStart;
+	if (numberOfElements == 0) {
+		printList(pStart);
+	}
+	while (numberOfElements > 0) {
+		PrintElement(pCurrent);
+		numberOfElements--;
+		pCurrent = pCurrent->pNext;
+	}
+}
+
+	User Interaktion
 */
 void main() {
     srand((unsigned)time(NULL));
