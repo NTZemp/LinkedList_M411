@@ -156,7 +156,7 @@ struPerson* GetElementAt(int index, struPerson* pStart) {
 /*
     Autor: Noah Zemp
 */
-[[deprecated]] void swapElements(struPerson* pElement1, struPerson* pElement2) {
+void swapElements(struPerson* pElement1, struPerson* pElement2) {
     struPerson* pTemp = (struPerson*)malloc(sizeof(struPerson));
     //Copy Element1 into Temp
     pTemp->pNext = pElement1->pNext;
@@ -167,6 +167,9 @@ struPerson* GetElementAt(int index, struPerson* pStart) {
     //Put Element2 to the Position were Element1 was
     pElement2->pNext = pTemp->pNext;
     pElement2->pPrev = pTemp->pPrev;
+
+	if (pElement1->pPrev != NULL) pElement1->pPrev->pNext = pElement1;
+	pElement2->pNext->pPrev = pElement2;
 }
 
 /*
@@ -197,6 +200,29 @@ struPerson* swapWithNextElement(struPerson* pStart, struPerson* pCurrent) {
     if (pAfterAfter != NULL) pAfterAfter->pPrev = pCurrent;
 
     return pStart;
+}
+
+
+struPerson* swap(struPerson* pStart, struPerson* pCurrent) {
+
+	struPerson* pBefore = pCurrent->pPrev;
+	struPerson* pAfter = pCurrent->pNext;
+
+
+	if (pCurrent == pStart) {
+		pStart = pAfter;
+	}
+	struPerson* pTemp = (struPerson*)malloc(sizeof(struPerson));
+	//Copy Element1 into Temp
+	pTemp->pNext = pCurrent->pNext;
+	pTemp->pPrev = pCurrent->pPrev;
+	//Put Element1 to the same Position as Element2
+	pCurrent->pNext = pAfter->pNext;
+	pCurrent->pPrev = pAfter->pPrev;
+	//Put Element2 to the Position were Element1 was
+	pAfter->pNext = pTemp->pNext;
+	pAfter->pPrev = pTemp->pPrev;
+	return pStart;
 }
 
 /*
@@ -286,13 +312,25 @@ struPerson* bubbleSort(struPerson* pStart, const char* sortingCriteria) {
 
 
 struPerson* insertionSort(struPerson* pStart) {
+	struPerson* pCurrent = NULL;
+	bool isSorting = false;
     // Schleife durch Ganze Liste, beginnt beim ersten Element nach pStart
-    for (struPerson* pCurrent = pStart->pNext; pCurrent != NULL; pCurrent->pNext) {
+    for (pCurrent = pStart->pNext; pCurrent != NULL;) {
         struPerson* pPrev = pCurrent->pPrev;
         // Schleife geht zurück zum Start solange der Nachname des vorherigen Elements grösser ist
-        while (pPrev != NULL && pPrev->lastname > pCurrent->lastname) {
-			swapElements(pPrev, pCurrent);
+        while (pPrev != NULL && strcmp(pPrev->lastname, pCurrent->lastname) > 0) {
+			pStart = swapElements(pCurrent, pPrev);
+			isSorting = true;
+			//pStart = swapWithNextElement(pStart, pPrev);
         }
+		if (isSorting) {
+			pCurrent = pPrev;
+		}
+		else {
+			pCurrent = pCurrent->pNext;
+		}
+		isSorting = false;
+
     }
     return pStart;
 }
@@ -320,6 +358,7 @@ void printList(struPerson* pStart) {
 */
 /*
     Autor: Noah Zemp, Lino Meyer
+*/
 void printElements(struPerson* pStart, int numberOfElements) {
 	struPerson* pCurrent = pStart;
 	if (numberOfElements == 0) {
@@ -332,8 +371,7 @@ void printElements(struPerson* pStart, int numberOfElements) {
 	}
 }
 
-	User Interaktion
-*/
+//	User Interaktion
 void main() {
     srand((unsigned)time(NULL));
     printf("******************\nVerkettete Liste\n******************\n\n");
@@ -353,6 +391,7 @@ void main() {
         printf("Liste löschen [\"dl\"]\n");
         printf("Personen löschen [\"dp\"]\n");
         printf("Liste mit BubbleSort sortieren [\"bs\"]\n");
+		printf("Liste mit InsertionSort sortieren [\"is\"]");
         printf("Programm beenden [\"quit\"]\n");
         printf("Eingabe:");
         // Das Enter nach einer scanf_s Eingabe bleibt im Buffer hängen
@@ -396,6 +435,9 @@ void main() {
         else if (strcmp(input, "quit") == 0) {
             return;
         }
+		else if (strcmp(input, "is") == 0){
+			pStart = insertionSort(pStart);
+		}
         else {
             printf("\nFalsche Eingabe\n");
         }
